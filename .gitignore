@@ -1,0 +1,14 @@
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+
+# Local editors
+.vscode/
+.idea/
+
+
+# OS
+.DS_Store
