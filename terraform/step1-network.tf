@@ -71,7 +71,7 @@ resource "azurerm_network_security_group" "app_nsg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_address_prefix      = azurerm_subnet.web_subnet.address_prefixes[0]
-    source_port_range =         "*"
+    source_port_range          = "*"
     destination_port_range     = "*"
     destination_address_prefix = "*"
   }
@@ -89,7 +89,7 @@ resource "azurerm_network_security_group" "db_nsg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_address_prefix      = azurerm_subnet.app_subnet.address_prefixes[0]
-    source_port_range =        "*"
+    source_port_range          = "*"
     destination_port_range     = "*"
     destination_address_prefix = "*"
   }
