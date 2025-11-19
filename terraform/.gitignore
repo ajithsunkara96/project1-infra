@@ -1,0 +1,5 @@
+*.tfvars
+# SSH Keys - DO NOT COMMIT
+ssh-keys/
+*.pem
+*.pub

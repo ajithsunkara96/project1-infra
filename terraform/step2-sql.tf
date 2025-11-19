@@ -6,7 +6,7 @@ resource "azurerm_mssql_server" "project1_sql_server" {
 
   # Required SQL login (Terraform requires it)
   administrator_login          = "sqladminuser"
-  administrator_login_password = "P@ssword123!"
+  administrator_login_password = var.sql_admin_password
 
   # System-assigned managed identity
   identity {
@@ -19,5 +19,11 @@ resource "azurerm_mssql_server" "project1_sql_server" {
     tenant_id                   = "edd9a64b-9b14-4418-b513-95ea88d93a37"
     object_id                   = "4febffc6-2366-4f76-b837-e44143b0568d"
     azuread_authentication_only = true
+  }
+  # Tell Terraform to ignore password changes
+  lifecycle {
+    ignore_changes = [
+      administrator_login_password
+    ]
   }
 }
