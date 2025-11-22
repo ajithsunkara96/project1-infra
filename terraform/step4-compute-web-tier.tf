@@ -33,6 +33,17 @@ resource "azurerm_lb" "web_lb" {
     tier = "web"
   }
 }
+# 2a. NAT Pool for SSH access to VMs
+resource "azurerm_lb_nat_pool" "ssh_nat_pool" {
+  resource_group_name            = "project1-RG"
+  loadbalancer_id                = azurerm_lb.web_lb.id
+  name                           = "SSH-Keys"
+  protocol                       = "Tcp"
+  frontend_port_start            = 50000
+  frontend_port_end              = 50099
+  backend_port                   = 22
+  frontend_ip_configuration_name = "web-lb-frontend"
+}
 
 # 3. Backend Pool - Where VMs register themselves
 resource "azurerm_lb_backend_address_pool" "web_backend" {
@@ -71,8 +82,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "web_vmss" {
   name                = "web-tier-vmss"
   resource_group_name = "project1-RG"
   location            = "canadacentral"
-  sku                 = "Standard_B2s"
-  instances           = 2
+  sku                 = "Standard_B1s"
+  instances           = 1
   admin_username      = "azureuser"
 
   # Spread VMs across availability zones for high availability
@@ -116,8 +127,9 @@ resource "azurerm_linux_virtual_machine_scale_set" "web_vmss" {
       load_balancer_backend_address_pool_ids = [
         azurerm_lb_backend_address_pool.web_backend.id
       ]
-    }
 
+      load_balancer_inbound_nat_rules_ids = [azurerm_lb_nat_pool.ssh_nat_pool.id]
+    }
     network_security_group_id = azurerm_network_security_group.web_nsg.id
   }
 
@@ -143,4 +155,8 @@ output "web_lb_public_ip" {
 output "web_vmss_id" {
   value       = azurerm_linux_virtual_machine_scale_set.web_vmss.id
   description = "ID of Web Tier VMSS"
+}
+output "private_key" {
+  value     = tls_private_key.vm_ssh_key.private_key_pem
+  sensitive = true
 }
