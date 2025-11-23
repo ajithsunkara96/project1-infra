@@ -28,7 +28,7 @@ Enterprise-grade 3-tier web application deployed on Azure using Infrastructure a
 - **Security:** NSGs, Managed Identity, Azure AD Auth
 
 ## Architecture Diagram
-[Add your diagram here]
+
 
 ## Deployment
 ```bash
@@ -47,9 +47,3 @@ terraform apply
 ## Cost Estimate
 ~$373/month for production workload
 - Optimizable with smaller SKUs for dev/test
-
-## Lessons Learned
-[Add what you learned]
-
-## Screenshots
-[Add screenshots]
