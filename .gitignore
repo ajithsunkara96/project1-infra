@@ -1,14 +1,17 @@
 # Terraform
+.terraform/
 *.tfstate
 *.tfstate.*
-.terraform/
 .terraform.lock.hcl
+*.tfvars
+terraform.tfvars
 
-
-# Local editors
-.vscode/
-.idea/
-
+# SSH Keys
+ssh-keys/
+*.pem
+*.pub
+key.pem
 
 # OS
 .DS_Store
+Thumbs.db
